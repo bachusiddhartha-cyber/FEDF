@@ -1,6 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function Signup() {
+function Signup({ onSignup }) {
+  const navigate = useNavigate();
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: ""
+  });
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    setSignupData((currentData) => ({
+      ...currentData,
+      [name]: value
+    }));
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onSignup(signupData);
+    navigate("/dashboard");
+  }
+
   return (
     <section className="auth-page">
       <div className="auth-card">
@@ -10,24 +34,52 @@ function Signup() {
           Create an account to begin using the doctor appointment system.
         </p>
 
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="fullName">Full Name</label>
-          <input id="fullName" type="text" placeholder="Enter your full name" />
+          <input
+            id="fullName"
+            name="name"
+            type="text"
+            placeholder="Enter your full name"
+            value={signupData.name}
+            onChange={handleChange}
+            required
+          />
 
           <label htmlFor="signupEmail">Email</label>
-          <input id="signupEmail" type="email" placeholder="Enter your email" />
+          <input
+            id="signupEmail"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            value={signupData.email}
+            onChange={handleChange}
+            required
+          />
 
           <label htmlFor="signupPassword">Password</label>
           <input
             id="signupPassword"
+            name="password"
             type="password"
             placeholder="Create a password"
+            value={signupData.password}
+            onChange={handleChange}
+            required
           />
 
           <label htmlFor="phone">Phone Number</label>
-          <input id="phone" type="tel" placeholder="Enter your phone number" />
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="Enter your phone number"
+            value={signupData.phone}
+            onChange={handleChange}
+            required
+          />
 
-          <button type="button" className="btn btn-primary full-width">
+          <button type="submit" className="btn btn-primary full-width">
             Sign Up
           </button>
         </form>

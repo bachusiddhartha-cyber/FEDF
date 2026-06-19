@@ -13,6 +13,10 @@ function Home() {
     {
       title: "Hospital Friendly",
       text: "Designed for clinics and hospitals that need organized patient access."
+    },
+    {
+      title: "Smart Queue Updates",
+      text: "Track token progress and estimated waiting time with live queue details."
     }
   ];
 
@@ -33,6 +37,9 @@ function Home() {
             </Link>
             <Link className="btn btn-secondary" to="/signup">
               Sign Up
+            </Link>
+            <Link className="btn btn-secondary" to="/dashboard">
+              Dashboard
             </Link>
           </div>
         </div>

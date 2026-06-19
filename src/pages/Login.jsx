@@ -1,6 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function Login() {
+function Login({ onLogin }) {
+  const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+    hospital: ""
+  });
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    setLoginData((currentData) => ({
+      ...currentData,
+      [name]: value
+    }));
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onLogin(loginData);
+    navigate("/dashboard");
+  }
+
   return (
     <section className="auth-page">
       <div className="auth-card">
@@ -10,15 +33,37 @@ function Login() {
           Access your hospital appointment dashboard with your email and password.
         </p>
 
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" placeholder="Enter your email" />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            value={loginData.email}
+            onChange={handleChange}
+            required
+          />
 
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" placeholder="Enter your password" />
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            value={loginData.password}
+            onChange={handleChange}
+            required
+          />
 
           <label htmlFor="hospital">Select Hospital</label>
-          <select id="hospital" defaultValue="">
+          <select
+            id="hospital"
+            name="hospital"
+            value={loginData.hospital}
+            onChange={handleChange}
+            required
+          >
             <option value="" disabled>
               Choose hospital
             </option>
@@ -27,7 +72,7 @@ function Login() {
             <option>Sunrise Medical Center</option>
           </select>
 
-          <button type="button" className="btn btn-primary full-width">
+          <button type="submit" className="btn btn-primary full-width">
             Login
           </button>
         </form>
